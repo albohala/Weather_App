@@ -41,6 +41,7 @@ class MainActivity : AppCompatActivity() {
 
         search = findViewById(R.id.llSearch)
         enterZipCode = findViewById(R.id.etEnterZipCode)
+        println("enterZipCode: $enterZipCode")
         searchButton = findViewById(R.id.btnSearch)
 
         mainLayout = findViewById(R.id.mainLayout)
@@ -57,7 +58,7 @@ class MainActivity : AppCompatActivity() {
         tvSunset = findViewById(R.id.tvSunsetTime)
         llReset = findViewById(R.id.llReset)
 
-        tvCityCountry.setOnClickListener{ getWeather() }
+        //tvCityCountry.setOnClickListener{ getWeather() }
         searchButton.setOnClickListener{ getWeather() }
     }
 
@@ -78,7 +79,7 @@ class MainActivity : AppCompatActivity() {
     private fun fetchData(): String {
         var response = ""
         try {
-            response = URL("api.openweathermap.org/data/2.5/weather?zip=${enterZipCode.text}&appid=${apiKey}").readText()
+            response = URL("https://api.openweathermap.org/data/2.5/weather?zip=${enterZipCode.text}&units=metric&appid=${apiKey}").readText()
         } catch (e: Exception) {
             Log.d("RESPONSE", "ISSUE: $e")
         }
@@ -117,6 +118,7 @@ class MainActivity : AppCompatActivity() {
             val weatherDescription = weather.getString("description")
 
             val address = jsonObj.getString("name")+", "+sys.getString("country")
+            Log.d("add","$address")
 
             tvCityCountry.text = address
             tvUpdateTime.text = lastUpdateText
